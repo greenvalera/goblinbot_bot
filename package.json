@@ -1,0 +1,13 @@
+{
+  "name": "GoblinFightBot",
+  "version": "1.0.0",
+  "description": "Goblin tournament registration bot",
+  "main": "./bot.js",
+  "scripts": {
+    "dev": "forever -w ./bot.js",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "telegraf": "^3.27.1"
+  }
+}
