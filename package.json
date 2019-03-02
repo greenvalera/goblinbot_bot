@@ -8,6 +8,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "sequelize": "^4.42.1",
     "sequelize-cli": "^5.4.0",
