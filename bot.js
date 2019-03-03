@@ -44,7 +44,7 @@ const superWizard = new WizardScene('super-wizard',
         const buttons = eventButtons(events);
         ctx.reply(
           'Шаг 1. Выберете ивент, на который хотите зарегистрироваться:',
-          Markup.inlineKeyboard(buttons).oneTime()
+          Markup.keyboard(buttons).oneTime()
             .resize()
             .extra())
     })
