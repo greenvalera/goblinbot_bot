@@ -4,7 +4,9 @@ const Stage = require('telegraf/stage')
 const TelegramBotKey = "669147388:AAEBqB7u5ilj6ueZyKwFpBYIuRWY9a6DbpA";
 const registerScene = require('./scenes/register')
 
-//Event.findOrCreate({where: {type: 'showdown'}, defaults: {type: 'showdown', date: new Date()}});
+// const db = require('../db/models/index')
+// const Event = db.event;
+// Event.findOrCreate({where: {type: 'draft'}, defaults: {type: 'draft', date: new Date()}});
 
 const { enter } = Stage 
 
