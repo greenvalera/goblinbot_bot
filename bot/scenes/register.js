@@ -3,7 +3,15 @@ const Markup = require('telegraf/markup')
 const db = require('../../db/models/index')
 const Event = db.event;
 const Entry = db.entry;
-const {eventButtons} = require('../templates')
+const {eventButtons, eventInfo} = require('../templates')
+
+const replyWithEventInfo = async ctx => {
+    const event = await Event.findById(ctx.scene.session.eventID);
+    const entries = await event.getEntries();
+    const answer = eventInfo(event, entries);
+
+    ctx.replyWithMarkdown(answer)
+};
 
 const registerScene = new Scene('register');
 registerScene.leave((ctx) => ctx.reply('Bye'))
@@ -46,8 +54,12 @@ registerScene.action('register', async ctx => {
     const isCrated = result[1];
 
     if (!isCrated) {
+
+        //TODO: rewrite with joins
         ctx.reply(`Вы уже зареганы на данный ивент`)
-        ctx.scene.leave();
+        replyWithEventInfo(ctx).then(() => {
+            ctx.scene.leave();
+          });
         return;
       }
 
@@ -57,10 +69,11 @@ registerScene.action('register', async ctx => {
     ctx.scene.leave();
     return;
   }
-
-  ctx.reply(`${ctx.scene.session.playerName}! Ты успешно зарегался на ивент ${ctx.scene.session.eventID}`)
-  //TODO: show Event dedatils
-  ctx.scene.leave();
+  
+  ctx.reply(`${ctx.scene.session.playerName}! Ты успешно зарегался на ивент`)
+  replyWithEventInfo(ctx).then(() => {
+    ctx.scene.leave();
+  });
 });
 
 registerScene.action('cancel', ctx => {

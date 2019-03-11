@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.ENUM('draft', 'standart', 'FNM', 'showdown'),
   }, {});
   Event.associate = function(models) {
-    // associations can be defined here
+    Event.hasMany(models.entry, {as: 'entries'});
   };
+  
   return Event;
 };

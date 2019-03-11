@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {});
-  entry.belongsTo(Event);
+
+  entry.associate = function(models) {
+    models.entry.belongsTo(models.event);
+  };
+
   return entry;
 };

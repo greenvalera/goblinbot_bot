@@ -23,7 +23,22 @@ const eventButtons = events => {
     )
 }
 
+const eventInfo = (event, entries) => {
+    const entryesHTMLStrings = entries.map(entry => `+ ${entry.name.replace('_', ' ')}`).join('\n')
+        
+    return `
+    ${event.type} ${moment(event.date).format("dddd, MMMM Do YYYY, hh:mm")}
+    -----------------------------------
+    Список участников
+    -----------------------------------
+    ${entryesHTMLStrings}
+    -----------------------------------
+    Всего ${entries.length}
+    `
+}
+
 module.exports = {
+    eventInfo,
     eventTemplate,
     eventButtons,
     eventsListTemplate
