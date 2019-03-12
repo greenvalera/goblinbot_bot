@@ -1,34 +1,16 @@
 const Scene = require('telegraf/scenes/base')
 const Markup = require('telegraf/markup')
 const db = require('../../db/models/index')
-const Event = db.event;
 const Entry = db.entry;
-const {eventButtons, eventInfo} = require('../templates')
-
-const replyWithEventInfo = async ctx => {
-    const event = await Event.findById(ctx.scene.session.eventID);
-    const entries = await event.getEntries();
-    const answer = eventInfo(event, entries);
-
-    ctx.replyWithMarkdown(answer)
-};
+const { eventStringMask } = require('../templates')
+const { buildShowEventsHandler, replyWithEventInfo } = require('./eventListBase')
 
 const registerScene = new Scene('register');
 registerScene.leave((ctx) => ctx.reply('Bye'))
+registerScene.enter( buildShowEventsHandler('Шаг 1. Выберете ивент, на который хотите зарегистрироваться:') )
 
-registerScene.enter(
-  async ctx => {
-    const events = await Event.findAll();
-    const buttons = eventButtons(events);
-    ctx.reply(
-      'Шаг 1. Выберете ивент, на который хотите зарегистрироваться:',
-       Markup.keyboard(buttons).oneTime()
-        .resize()
-        .extra())
-   })
-
-registerScene.hears(/^#(\d)\s(\w+)\s.+/, (ctx) => {
-    ctx.scene.session.eventID = ctx.match[1];
+registerScene.hears(eventStringMask, (ctx) => {
+  ctx.scene.session.eventID = parseInt(ctx.match[1]);
     const player = ctx.message.from;
     ctx.scene.session.playerName = `${player.first_name}_${player.last_name}`
     ctx.reply(
@@ -54,7 +36,6 @@ registerScene.action('register', async ctx => {
     const isCrated = result[1];
 
     if (!isCrated) {
-
         //TODO: rewrite with joins
         ctx.reply(`Вы уже зареганы на данный ивент`)
         replyWithEventInfo(ctx).then(() => {

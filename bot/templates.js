@@ -2,6 +2,8 @@ var moment = require('moment');
 moment.locale('ru');
 const Markup = require('telegraf/markup')
 
+const eventStringMask = /^#(\d)\s(\w+)\s.+/
+
 const eventTemplate = (id, type, date) => {
     return `#${id} ${type} ${moment(date).format("dddd, MMMM Do YYYY, hh:mm")}`;
 };
@@ -38,6 +40,7 @@ const eventInfo = (event, entries) => {
 }
 
 module.exports = {
+    eventStringMask,
     eventInfo,
     eventTemplate,
     eventButtons,
