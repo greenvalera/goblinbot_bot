@@ -5,13 +5,13 @@
   "main": "./bot.js",
   "scripts": {
     "dev": "forever -w ./bot.js",
-    "start": "npm run dev"
+    "start": "npm install && npm run dev"
   },
   "dependencies": {
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
-    "sequelize": "^4.42.1",
-    "sequelize-cli": "^5.4.0",
-    "telegraf": "^3.27.1"
+    "sequelize": "^4.44.3",
+    "sequelize-cli": "^5.5.1",
+    "telegraf": "^3.34.1"
   }
 }
